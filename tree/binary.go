@@ -1,9 +1,10 @@
 package tree
 
 import (
-	"data-structures/queue"
 	"fmt"
 	"math"
+
+	"data-structures/queue"
 )
 
 type (
