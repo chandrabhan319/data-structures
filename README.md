@@ -1,1 +1,1 @@
-# data-structures
+# Data-structures algorithm using golang.
