@@ -402,3 +402,46 @@ func (n *node) getNodeWithValue(val int) *node {
 
 	return nil
 }
+
+// changes made by prerna on 09/01/2022
+//3. validating BST using inorder
+
+func (t *Tree) BSTInoderValidate() {
+	if t == nil {
+		fmt.Println("valid bst")
+		return
+	}
+	arr := []int{}
+	arr = t.root.BSTInorderTraverse(arr)
+	// fmt.Println(arr)
+	chkArrAsc(arr)
+
+}
+func (n *node) BSTInorderTraverse(a []int) []int {
+
+	if n == nil {
+		return a
+	}
+	if n.left != nil {
+		a = n.left.BSTInorderTraverse(a)
+	}
+	a = append(a, n.value)
+	if n.right != nil {
+		a = n.right.BSTInorderTraverse(a)
+	}
+	return a
+
+}
+
+// check if the array in in increasing order
+func chkArrAsc(arr []int) {
+
+	for i := 1; i < len(arr); i++ {
+		if arr[i] < arr[i-1] {
+			fmt.Println("The Tree is not BST")
+			return
+		}
+	}
+	fmt.Println("The Tree is a BST")
+
+}
