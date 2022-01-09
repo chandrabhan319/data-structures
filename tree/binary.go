@@ -402,3 +402,103 @@ func (n *node) getNodeWithValue(val int) *node {
 
 	return nil
 }
+
+// changes By Prerna 09/01/2022
+
+// 1. Is validate BST
+func (t *Tree) ValidBST() bool {
+	if t == nil {
+		return true
+	}
+	return t.root.chkNode(math.MaxInt, math.MinInt)
+}
+
+func (n *node) chkNode(max int, min int) bool {
+	if n == nil {
+		return true
+	}
+	if n.value > max && n.value < min {
+		return false
+	}
+	return n.left.chkNode(n.value, min) && n.right.chkNode(max, n.value)
+}
+
+// 2. determine if the given BST is balance
+
+func (t *Tree) IsBal() bool {
+	if t == nil {
+		// fmt.Println("Balanced")
+		return true
+	}
+	// h := 0
+	h1 := t.root.left.getHght(0)
+	h2 := t.root.right.getHght(0)
+	if h1-h2 > 1 || h2-h1 > 1 {
+		// fmt.Println("Un-balanced")
+		return false
+	}
+	return true
+	// fmt.Println("Balanced")
+}
+
+func (n *node) getHght(h int) int {
+	if n == nil {
+		return h
+	}
+	lh := n.left.getHght(h + 1)
+	rh := n.right.getHght(h + 1)
+	if lh > rh {
+		return lh //n.left.GetHght(h + 1)
+	}
+	return rh //n.right.GetHght(h + 1)
+}
+
+// 3. given a sorted array, construct a bst with minimal height
+// note: following mthods has error
+
+func ConstructBST(a []int) *Tree {
+
+	t := New()
+	t.root.GetNode(a)
+	t.Print()
+	return t
+}
+func (n *node) GetNode(arr []int) {
+	var mid = 0
+
+	if len(arr) > 0 {
+		mid = len(arr) / 2
+		n = &node{arr[mid-1], nil, nil}
+
+	}
+	// else {
+	// 	//return n
+	// }
+	arrL := []int{}
+	arrR := []int{}
+	// var arrL []int
+	// var arrL []int
+	if len(arr)-mid > 1 {
+		for i := 0; i < mid-1; i++ {
+			arrL = append(arrL, arr[i])
+		}
+		//fmt.Println(arrL)
+		for i := mid; i < len(arr); i++ {
+
+			//arrR[i] = arr[i]
+			arrR = append(arrR, arr[i])
+
+		}
+		// n.left = n.left.GetNode(arrL)
+		// n.right = n.right.GetNode(arrR)
+		n.left.GetNode(arrL)
+		n.right.GetNode(arrR)
+	} else {
+		if arr[mid] > n.value {
+			n.right = &node{arr[mid], nil, nil}
+		} else {
+			n.left = &node{arr[mid], nil, nil}
+		}
+	}
+
+}
