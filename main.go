@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"data-structures/array"
+	"data-structures/array/sorting"
 	"data-structures/queue"
 	"data-structures/stack"
 	"data-structures/tree"
@@ -160,6 +162,23 @@ func main() {
 	printSection()
 
 	treeOperations()
+	printSection()
+	sliceOperations()
+	printSection()
+	// fmt.Printf("%d\n", leftShift(10, 2))
+	// fmt.Printf("%d\n", rightShift(10, 2))
+	// fmt.Printf("%d\n", pow2(10))
+	// fmt.Printf("%d\n", leftS(1, 6))
+	// a := leftS(1, 6)
+	// a = a | 0x0F
+	// b := leftS(3, 5)
+	// a = a | b
+	// fmt.Printf("%d %d\n", a, b)
+	// // a ^= a
+	// // fmt.Printf("%d\n", a)
+	// // ^a = 1 ^ a
+	// fmt.Printf("%d\n", ^a)
+
 }
 
 func treeOperations() {
@@ -242,8 +261,53 @@ func treeOperations() {
 	bst.Print()
 
 	printSection()
+	// top view print
+	fmt.Println("Print Top View")
+	t.PrintTopView()
+	fmt.Println("")
+	printSection()
+	fmt.Println("Print Level order lines")
+	t.TreeLevelPrint()
+	fmt.Println("")
+	printSection()
+	fmt.Println("Cousin Node")
+	if t.IsCousinNode(7, 0) {
+		fmt.Println("Cousin Node true")
+	} else {
+		fmt.Println("Cousin Node False")
+
+	}
+
 }
 
 func printSection() {
 	fmt.Println("###################################################################################################################")
+}
+func sliceOperations() {
+	a := array.GenerateIntSlice(10, 1000)
+	fmt.Printf("%+v\n", a)
+	a = sorting.MergeSort(a)
+	fmt.Printf("%+v\n", a)
+}
+func OddEven(num int) bool {
+	return num%2 == 0
+
+}
+func IsEven(num int) bool {
+	return num&1 != 1
+}
+func leftShift(num int, shift int) int {
+	return num << shift
+}
+func rightShift(num int, shift int) int {
+	return num >> shift
+}
+func pow2(num int) int {
+	if num == 0 {
+		return 0
+	}
+	return 1 << num
+}
+func leftS(num int8, shift int) int8 {
+	return num << shift
 }

@@ -17,6 +17,10 @@ type (
 		left  *node
 		right *node
 	}
+	lvlNode struct {
+		n   *node
+		lvl int
+	}
 )
 
 func New() *Tree {
@@ -404,7 +408,6 @@ func (n *node) getNodeWithValue(val int) *node {
 }
 
 // changes By Prerna 09/01/2022
-
 // 1. Is validate BST
 func (t *Tree) ValidBST() bool {
 	if t == nil {
@@ -451,4 +454,111 @@ func (n *node) getHght(h int) int {
 		return lh //n.left.GetHght(h + 1)
 	}
 	return rh //n.right.GetHght(h + 1)
+}
+
+//  commited by prerna 18/01/2022
+// 1. Finding the cousin nodes
+func (t *Tree) IsCousinNode(n1 int, n2 int) bool {
+	if t == nil {
+		return false
+	}
+	return t.root.isCousinNode(t.GetNodeWithValue(n1), t.GetNodeWithValue(n2))
+}
+func (n *node) isCousinNode(n1 *node, n2 *node) bool {
+	if n == nil {
+		return true
+	}
+
+	if n1.height() != n2.height() {
+		return false
+	}
+
+	if (n.left == n1 && n.right == n2) || (n.left == n2 && n.right == n1) {
+		return false
+	}
+	return n.left.isCousinNode(n1, n2) && n.right.isCousinNode(n1, n2)
+}
+
+//2. Printing the top view of a tree
+
+func (t *Tree) PrintTopView() {
+	if t == nil {
+		return
+	}
+	t.root.printTopView()
+}
+
+func (n *node) printTopView() {
+	if n == nil {
+		return
+	}
+	nd := lvlNode{n, 0}
+	// // creating an empty queue
+	q := queue.New()
+
+	// inserting the first node into the q
+	mp := make(map[int]bool)
+	mp[0] = true
+	q.Enqueue(nd)
+	for q.Len() != 0 {
+		m := q.Dequeue().(lvlNode)
+
+		fmt.Printf("%v\t", m.n.value)
+		if m.n.left != nil {
+			ln := lvlNode{m.n.left, m.lvl + 1}
+			if _, ok := mp[ln.lvl]; ok {
+			} else {
+				q.Enqueue(ln)
+			}
+		}
+
+		if m.n.right != nil {
+			rn := lvlNode{m.n.right, m.lvl - 1}
+			if _, ok := mp[rn.lvl]; ok {
+			} else {
+				q.Enqueue(rn)
+			}
+		}
+	}
+}
+
+//18/01/2022
+// 3. printing in level order diff lines as per the level
+
+func (t *Tree) TreeLevelPrint() {
+	if t == nil {
+		return
+	}
+
+	t.root.treeLevelPrint()
+}
+func (n *node) treeLevelPrint() {
+	if n == nil {
+		return
+	}
+
+	q := queue.New()
+	mp := make(map[int]bool)
+	nd := lvlNode{n, 0}
+	q.Enqueue(nd)
+
+	for q.Len() != 0 {
+		a := q.Dequeue().(lvlNode)
+		if _, ok := mp[a.lvl]; ok {
+			fmt.Printf("%v\t", a.n.value)
+		} else {
+			mp[a.lvl] = true
+			fmt.Printf("\n%v\t", a.n.value)
+		}
+
+		if a.n.left != nil {
+			nd = lvlNode{a.n.left, a.lvl + 1}
+			q.Enqueue(nd)
+		}
+
+		if a.n.right != nil {
+			nd = lvlNode{a.n.right, a.lvl + 1}
+			q.Enqueue(nd)
+		}
+	}
 }
