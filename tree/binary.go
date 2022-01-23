@@ -1,10 +1,9 @@
 package tree
 
 import (
+	"data-structures/queue"
 	"fmt"
 	"math"
-
-	"data-structures/queue"
 )
 
 type (
@@ -16,10 +15,6 @@ type (
 		value int
 		left  *node
 		right *node
-	}
-	lvlNode struct {
-		n   *node
-		lvl int
 	}
 )
 
@@ -492,6 +487,10 @@ func (n *node) printTopView() {
 	if n == nil {
 		return
 	}
+	type lvlNode struct {
+		n   *node
+		lvl int
+	}
 	nd := lvlNode{n, 0}
 	// // creating an empty queue
 	q := queue.New()
@@ -536,29 +535,23 @@ func (n *node) treeLevelPrint() {
 	if n == nil {
 		return
 	}
-
 	q := queue.New()
-	mp := make(map[int]bool)
-	nd := lvlNode{n, 0}
-	q.Enqueue(nd)
+	q.Enqueue(n)
 
 	for q.Len() != 0 {
-		a := q.Dequeue().(lvlNode)
-		if _, ok := mp[a.lvl]; ok {
-			fmt.Printf("%v\t", a.n.value)
-		} else {
-			mp[a.lvl] = true
-			fmt.Printf("\n%v\t", a.n.value)
-		}
+		lvl := q.Len()
+		for lvl > 0 {
+			n = q.Dequeue().(*node)
+			fmt.Printf("%v\t", n.value)
 
-		if a.n.left != nil {
-			nd = lvlNode{a.n.left, a.lvl + 1}
-			q.Enqueue(nd)
+			if n.left != nil {
+				q.Enqueue(n.left)
+			}
+			if n.right != nil {
+				q.Enqueue(n.right)
+			}
+			lvl--
 		}
-
-		if a.n.right != nil {
-			nd = lvlNode{a.n.right, a.lvl + 1}
-			q.Enqueue(nd)
-		}
+		fmt.Println("")
 	}
 }
