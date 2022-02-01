@@ -165,6 +165,14 @@ func main() {
 	printSection()
 	sliceOperations()
 	printSection()
+
+	fmt.Println("array operations")
+	a := []int{1, 0, 3, 7, 9, 0, 11, 13}
+	a = array.MoveZeros(a)
+	fmt.Println(a)
+	printSection()
+
+	fmt.Println(array.MaxSum([]int{-2, -10, -2, -4, -2, -10, -3, -7, -10, -3, -2, -10, -1}))
 	// fmt.Printf("%d\n", leftShift(10, 2))
 	// fmt.Printf("%d\n", rightShift(10, 2))
 	// fmt.Printf("%d\n", pow2(10))
@@ -178,6 +186,45 @@ func main() {
 	// // fmt.Printf("%d\n", a)
 	// // ^a = 1 ^ a
 	// fmt.Printf("%d\n", ^a)
+	printSection()
+
+	fmt.Println(array.StockProfit([]int{1, 2, 3, 4, 5, 6, 7}))
+	fmt.Println(array.StockProfit([]int{7, 5, 4, 3, 2, 1, 0}))
+
+	printSection()
+	fmt.Println(array.StockProfitII([]int{1, 2, 3, 4, 5, 6, 7}))
+	fmt.Println(array.StockProfitII([]int{7, 1, 3, 5, 2, 4, 2}))
+	fmt.Println(array.StockProfitII([]int{7, 5, 4, 3, 2, 1, 0}))
+
+	// fmt.Println(array.StcoProfitIntrdDay([]int{1, 2, 3, 4, 5, 6, 7}))
+	// fmt.Println(array.StcoProfitIntrdDay([]int{7, 5, 4, 3, 2, 1, 0}))
+	// fmt.Println(array.StcoProfitIntrdDay([]int{7, 1, 3, 5, 2, 4, 2}))
+	// printSection()
+
+	// fmt.Println(array.StcoProfitIntrdDayII([]int{1, 2, 3, 4, 5, 6, 7}))
+	// fmt.Println(array.StcoProfitIntrdDayII([]int{7, 5, 4, 3, 2, 1, 0}))
+	// fmt.Println(array.StcoProfitIntrdDayII([]int{7, 1, 3, 5, 2, 4, 2}))
+	// printSection()
+
+	// // fmt.Println(array.StockMultPurchase([]int{1, 2, 3, 4, 5, 6, 7}, 10))
+	// // fmt.Println(array.StockMultPurchase([]int{7, 5, 4, 3, 2, 1, 0}, 10))
+	// // fmt.Println(array.StockMultPurchase([]int{7, 1, 3, 5, 2, 4, 2}, 10))
+	// printSection()
+	// fmt.Println(array.StockProfitTransactionFee([]int{7, 1, 3, 5, 2, 4, 2}, 2))
+	// fmt.Println(array.StockProfitTransactionFeeII([]int{7, 1, 3, 5, 2, 4, 2}, 2))
+
+	// printSection()
+	// fmt.Println(array.ProfitRestDayII([]int{7, 1, 3, 4, 2, 5}))
+	// printSection()
+	// fmt.Println(array.ProfitRestDayIII([]int{7, 1, 3, 4, 2, 5}))
+	printSection()
+	fmt.Println(array.RotateRight([]int{7, 1, 3, 4, 2, 5}, 3))
+	fmt.Println(array.RotateLeft([]int{7, 1, 3, 4, 2, 5}, 2))
+	printSection()
+	fmt.Println(array.KnapSack01([]int{2, 3, 3}, []int{90, 100, 120}, 5))
+	printSection()
+
+	fmt.Println(sorting.SeggregateEvenOdd([]int{1, 2, 3, 4, 5, 6}))
 
 }
 
