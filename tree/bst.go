@@ -160,3 +160,24 @@ func (n *node) getBSTNodeWithValue(val int) *node {
 
 	return n.right.getBSTNodeWithValue(val)
 }
+
+func (t *BinarySearchTree) AreCousins(n1, n2 *node) bool {
+	if n1.height() != n2.height() {
+		return false
+	}
+
+	if t.root.sameParents(n1, n2) {
+		return false
+	}
+
+	return true
+}
+
+func (t *BinarySearchTree) TopView() {
+	if t.root == nil {
+		return
+	}
+
+	t.root.topView()
+	fmt.Println("")
+}

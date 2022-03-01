@@ -3,6 +3,7 @@ package tree
 import (
 	"fmt"
 	"math"
+	"sort"
 
 	"data-structures/queue"
 )
@@ -401,4 +402,158 @@ func (n *node) getNodeWithValue(val int) *node {
 	}
 
 	return nil
+}
+
+func (t *Tree) AreCousins(n1, n2 *node) bool {
+	if n1.height() != n2.height() {
+		return false
+	}
+
+	if t.root.sameParents(n1, n2) {
+		return false
+	}
+
+	return true
+}
+
+func (n *node) sameParents(n1, n2 *node) bool {
+	if n == nil {
+		return false
+	}
+
+	return ((n.left == n1 && n.right == n2) || (n.left == n2 && n.right == n1) || n.left.sameParents(n1, n2) || n.right.sameParents(n1, n2))
+}
+
+func (t *Tree) TopView() {
+	if t.root == nil {
+		return
+	}
+
+	t.root.topView()
+	fmt.Println("")
+}
+
+func (n *node) topView() {
+	if n == nil {
+		return
+	}
+
+	type lvlNode struct {
+		n1  *node
+		lvl int
+	}
+
+	nn := &lvlNode{
+		n1:  n,
+		lvl: 0,
+	}
+
+	q := queue.New()
+	q.Enqueue(nn)
+	m := make(map[int]bool)
+	for q.Len() != 0 {
+		n := q.Dequeue().(*lvlNode)
+		if _, ok := m[n.lvl]; !ok {
+			fmt.Printf("%d\t", n.n1.value)
+			m[n.lvl] = true
+		}
+
+		if n.n1.left != nil {
+			nn = &lvlNode{
+				n1:  n.n1.left,
+				lvl: n.lvl + 1,
+			}
+			q.Enqueue(nn)
+		}
+
+		if n.n1.right != nil {
+			nn = &lvlNode{
+				n1:  n.n1.right,
+				lvl: n.lvl - 1,
+			}
+			q.Enqueue(nn)
+		}
+	}
+}
+
+func (t *Tree) SumTree() {
+	if t.root == nil {
+		return
+	}
+
+	t.root.sumTree()
+}
+
+func (n *node) sumTree() int {
+	if n == nil {
+		return 0
+	}
+
+	oldSum := n.value
+	n.value = n.left.sumTree() + n.right.sumTree()
+
+	return n.value + oldSum
+}
+
+/*
+map[int][]int{
+	0: []{1, 3, 7, 15},
+	1: []{2, 5, 11, 6, 13, 14},
+	2: []{4, 9, 10, 12},
+	3: []{8},
+}
+*/
+func (t *Tree) DiagonalParse() {
+	if t.root == nil {
+		return
+	}
+
+	m := make(map[int][]int)
+	t.root.diagonalParse(0, m)
+	var keys []int
+	for k := range m {
+		keys = append(keys, k)
+	}
+
+	sort.Ints(keys)
+	for _, k := range keys {
+		fmt.Println(m[k])
+	}
+}
+
+func (n *node) diagonalParse(d int, m map[int][]int) {
+	if n == nil {
+		return
+	}
+
+	m[d] = append(m[d], n.value)
+	n.left.diagonalParse(d+1, m)
+	n.right.diagonalParse(d, m)
+}
+
+func (t *Tree) PrintRootToLeafPaths() {
+	if t.root == nil {
+		return
+	}
+
+	m := []int{}
+	t.root.printRootToLeafPaths(m)
+}
+
+func (n *node) printRootToLeafPaths(val []int) {
+	if n == nil {
+		return
+	}
+
+	val = append(val, n.value)
+	if n.left == nil && n.right == nil {
+		for _, v := range val {
+			fmt.Printf("%d\t", v)
+		}
+
+		fmt.Println("")
+	}
+
+	n.left.printRootToLeafPaths(val)
+	n.right.printRootToLeafPaths(val)
 }
